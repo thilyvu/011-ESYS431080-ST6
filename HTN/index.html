@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V9</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	
+	<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+			<form class="login100-form validate-form">
+				<span class="login100-form-title p-b-37">
+					Sign In
+				</span>
+
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+					<input class="input100" id="users" type="text" name="username" placeholder="username or email">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
+					<input class="input100" id="password" type="password" name="pass" placeholder="password">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-login100-form-btn">
+					<button class="login100-form-btn" id="loginBtn">
+						Sign In
+					</button>
+				</div>
+				<div class="text-center p-t-57 p-b-20">
+
+					<span class="txt1">
+						<!-- Or login with -->Forgot your password ?	
+					</span>
+					</br>
+					<span class="txt1" id="notice1" style="color:red; visibility:hidden">
+						<!-- Or login with -->You have to fill all the fields to signin	
+					</span>
+					</br>
+					<span class="txt1" id="notice2" style="color:red; visibility:hidden">
+						<!-- Or login with -->Your password or account is not valid
+					</span>
+					</br>
+					<span class="txt1" id="notice3" style="color:red; visibility:hidden">
+						<!-- Or login with -->You wrong over 5 times try again after a few seconds	
+					</span>
+				</div>
+<!-- 
+				<div class="flex-c p-b-112">
+					<a href="#" class="login100-social-item">
+						<i class="fa fa-facebook-f"></i>
+					</a>
+
+					<a href="#" class="login100-social-item">
+						<img src="images/icons/icon-google.png" alt="GOOGLE">
+					</a>
+				</div> -->
+<!-- 
+				<div class="text-center">
+					<a href="#" class="txt2 hov1">
+						Sign Up
+					</a>
+				</div> -->
+			</form>
+
+			
+		</div>
+	</div>
+	
+	
+
+	<div id="dropDownSelect1"></div>
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+
+	<script>
+	// Your web app's Firebase configuration
+	// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	var firebaseConfig = {
+		apiKey: "AIzaSyDBsh-RETRNYHrIzu-beXNDEaYHWMP-fnI",
+		authDomain: "web-app-41e12.firebaseapp.com",
+		databaseURL: "https://web-app-41e12-default-rtdb.firebaseio.com",
+		projectId: "web-app-41e12",
+		storageBucket: "web-app-41e12.appspot.com",
+		messagingSenderId: "1086473909517",
+		appId: "1:1086473909517:web:fc87a0db655a77367c6c44",
+		measurementId: "G-PJGYYXFRK8"
+	};
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
+	</script>
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+	<script>
+		const database=firebase.database();
+		const rootRef=database.ref('Users');
+		const StageRef=database.ref('stage');
+		var countTime=0;
+		document.getElementById("loginBtn").addEventListener("click", function(event){
+		event.preventDefault();
+		console.log("prevented");
+		var username=document.getElementById("users").value;
+		var isLogin=true;	
+		countTime++;
+		const update={
+							count:countTime
+						}
+						database.ref().update(update)
+		if(countTime==5)
+		{
+			document.getElementById("notice3").style.visibility = "visible";
+			document.getElementById("loginBtn").disabled = true;
+			
+			return;
+		}
+		var password=document.getElementById("password").value;
+		if( username==""||password=="")
+		{
+			//console.log("Bạn phải nhập tài khoản và mật khẩu để đăng nhập ");
+			document.getElementById("notice1").style.visibility = "visible";
+			return;
+		}	
+		rootRef.on("value",function(snapshot){
+			snapshot.forEach(function(element){
+				if( element.key==username)
+				{
+					if(element.val()==password)
+					{
+						console.log("true password ");
+						isLogin=!isLogin;
+						const update={
+							IsLogined:true
+						}
+						StageRef.update(update);
+						const updateUser={
+							CurrentUser:username
+						}
+
+						database.ref().update(updateUser);
+						const UserAttendance=database.ref('/Attendance/'+username).push().set(
+							{
+								2:{
+								date:"20/05/2021",
+								timeArrival:"8:31 h",
+								timeEnd:"18:00 h",
+								timeStart:"9:00 h"
+								}
+							}
+						);
+
+						
+						window.location.pathname = "/schedule/schedule.html";
+					}
+				}
+			})
+		})
+		if( isLogin)
+		{
+			//console.log("Tài khoản hoặc mật khẩu của bạn không đúng ");
+			document.getElementById("notice1").style.visibility = "hidden";
+			document.getElementById("notice2").style.visibility = "visible";
+		}
+
+		})
+
+	</script>
+</body>
+</html>
